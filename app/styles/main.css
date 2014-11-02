@@ -1,7 +1,8 @@
 body {
   padding: 10px;
-  margin-bottom: 20px;
+  padding-bottom: 15px;
   width: 300px;
+  float: left;
 }
 
 #info {
@@ -30,6 +31,7 @@ body {
 
 #items li.title {
   line-height: 1.5;
+  width: 235px;
 }
 
 .icon img {
@@ -41,23 +43,4 @@ body {
 #autocomplete {
   width: 100%;
   height: 25px;
-}
-
-.marquee {
-  width: 235px;
-  margin: 0 auto;
-  overflow: hidden;
-  white-space: nowrap;
-  box-sizing: border-box;
-  -webkit-animation: marquee 5s linear infinite;
-}
-
-.marquee:hover {
-  -webkit-animation-play-state: paused;
-}
-
-@-webkit-keyframes marquee {
-  0%   { text-indent: 0 }
-  50%  { text-indent: 200px }
-  100% { text-indent: 0 }
 }
