@@ -30,9 +30,10 @@ function createItem (tab) {
 }
 
 function filterTab (value, tab) {
-  var title = tab.title.toLowerCase();
   if (!value) { return true; }
-  return !!~title.toLowerCase().indexOf(value.toLowerCase());
+  return [ tab.title, tab.url ].some(function(item) {
+    return !!~item.toLowerCase().indexOf(value.toLowerCase());
+  });
 }
 
 function renderItems (tabs, filterValue) {
@@ -67,42 +68,39 @@ chrome.tabs.getAllInWindow(null, function(tabs) {
   });
 
   items.addEventListener('keydown', function(e) {
-    var id    = +e.target.id;
-    var index = tabs.reduce(function(old, item, index) {
-      return item.id === id ? index : old;
-    }, -1);
-
-    if (e.keyCode === 13) {
-      selectTab(id);
-    }
+    var id = +e.target.id;
+    if (e.keyCode === 13) { selectTab(id); }
 
     // 40 = down
-    // if there is a next item then focus it
-    else if (e.keyCode === 40 && tabs[index + 1]) {
-      var next = tabs[index + 1].id;
-      document.getElementById(next).focus();
-    }
-
     // 38 = up
-    // if there is a previous item then focus it
-    else if (e.keyCode === 38 && tabs[index - 1]) {
-      var prev = tabs[index - 1].id;
-      document.getElementById(prev).focus();
+    // If the user presses up or down keys then lets see if we have the following index available
+    // If we do then focus that
+    else {
+      // Find current items index
+      var index = tabs.reduce(function(old, item, index) {
+        return item.id === id ? index : old;
+      }, -1);
+
+      if (e.keyCode === 40 && tabs[index + 1]) {
+        var next = tabs[index + 1].id;
+        document.getElementById(next).focus();
+      } else if (e.keyCode === 38 && tabs[index - 1]) {
+        var prev = tabs[index - 1].id;
+        document.getElementById(prev).focus();
+      }
     }
   });
 
   autocomplete.addEventListener('keyup', function(e) {
     var value = e.target.value.toLowerCase();
-    renderItems(tabs, value);
 
     // Check if we have any elements in the list
     if (items.firstElementChild) {
-
       // If enter is pressed and there is a first element
       // then focus the given element
       if (e.keyCode === 13) {
         // If there is only one child then select the given one
-        if (items.children.length === 1) {
+        if (items.childElementCount === 1) {
           return selectTab(items.firstElementChild.id);
         }
         items.firstElementChild.focus();
@@ -113,5 +111,7 @@ chrome.tabs.getAllInWindow(null, function(tabs) {
         items.firstElementChild.focus();
       }
     }
+
+    renderItems(tabs, value);
   });
 });
