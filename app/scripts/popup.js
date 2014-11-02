@@ -29,6 +29,10 @@ function createItem (tab) {
   return el;
 }
 
+/**
+ * Checks if the current tab value matches the filter value.
+ * It will check for both the title and the url.
+ */
 function filterTab (value, tab) {
   if (!value) { return true; }
   return [ tab.title, tab.url ].some(function(item) {
@@ -36,6 +40,11 @@ function filterTab (value, tab) {
   });
 }
 
+/**
+ * Renders and re-renders the list of items.
+ * First removes all the children
+ * Then builds the list again and attaches tabindexes for tab controls
+ */
 function renderItems (tabs, filterValue) {
   var itemsList = tabs.filter(filterTab.bind(null, filterValue)).map(createItem);
 
@@ -52,10 +61,15 @@ function renderItems (tabs, filterValue) {
   });
 }
 
+/**
+ * Selects the given tab with the id
+ * and closes the popup.
+ */
 function selectTab (id) {
   chrome.tabs.update(+id, {
     active: true
   });
+  window.close();
 }
 
 chrome.tabs.getAllInWindow(null, function(tabs) {
@@ -103,12 +117,12 @@ chrome.tabs.getAllInWindow(null, function(tabs) {
         if (items.childElementCount === 1) {
           return selectTab(items.firstElementChild.id);
         }
-        items.firstElementChild.focus();
+        return items.firstElementChild.focus();
       }
 
       // If down arrow is pressed then select the next element
       else if (e.keyCode === 40) {
-        items.firstElementChild.focus();
+        return items.firstElementChild.focus();
       }
     }
 
