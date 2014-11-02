@@ -15,7 +15,7 @@ function createIcon (iconUrl) {
 }
 
 function createTitle (title) {
-  var el = document.createElement('span');
+  var el = document.createElement('p');
   el.classList.add('title');
   el.classList.add('marquee');
   el.innerText = title;
