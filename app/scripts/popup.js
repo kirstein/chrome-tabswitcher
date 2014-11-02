@@ -70,16 +70,23 @@ chrome.tabs.getAllInWindow(null, function(tabs) {
   items.addEventListener('keydown', function(e) {
     var id    = +e.target.id;
     var index = tabs.reduce(function(old, item, index) {
-      if (item.id === id) { return index; }
-      return old;
+      return item.id === id ? index : old;
     }, -1);
 
     if (e.keyCode === 13) {
       selectTab(id);
-    } else if (e.keyCode === 40 && tabs[index + 1]) {
+    }
+
+    // 40 = down
+    // if there is a next item then focus it
+    else if (e.keyCode === 40 && tabs[index + 1]) {
       var next = tabs[index + 1].id;
       document.getElementById(next).focus();
-    } else if (e.keyCode === 38 && tabs[index - 1]) {
+    }
+
+    // 38 = up
+    // if there is a previous item then focus it
+    else if (e.keyCode === 38 && tabs[index - 1]) {
       var prev = tabs[index - 1].id;
       document.getElementById(prev).focus();
     }
