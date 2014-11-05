@@ -5,12 +5,9 @@ var autocomplete = document.getElementById('autocomplete');
 
 function createIcon (iconUrl) {
   var el  = document.createElement('span');
-  var ico = document.createElement('img');
-  if (!iconUrl) { return el; }
-  ico.src = iconUrl;
-  ico.alt = iconUrl;
   el.classList.add('icon');
-  el.appendChild(ico);
+  if (!iconUrl) { return el; }
+  el.style.background = 'url(' + iconUrl + ') no-repeat center';
   return el;
 }
 
@@ -76,7 +73,7 @@ chrome.tabs.getAllInWindow(null, function(tabs) {
   renderItems(tabs);
 
   items.addEventListener('click', function(e) {
-    var id = e.target.id;
+    var id = e.target.parentNode.id;
     selectTab(id);
     e.preventDefault();
   });

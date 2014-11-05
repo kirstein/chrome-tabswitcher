@@ -6,14 +6,13 @@ body {
 }
 
 #info {
-  padding: 5px 0 20px;
+  padding: 0px 0 20px;
   text-align: center;
 }
 
 #info .key {
   border: 1px solid #e4e4e4;
   padding: 2px;
-  margin-right: 5px;
 }
 
 #items {
@@ -24,20 +23,25 @@ body {
 
 #items li, #items li span {
   float: left;
-  height: 23px;
-  margin: auto 5px;
-  line-height: 2; 
 }
 
-#items li.title {
-  line-height: 1.5;
-  width: 235px;
+#items li .title {
+  line-height: 1.6;
+  width: 255px;
+  overflow: hidden;
+  height: 24px;
 }
 
-.icon img {
-  max-width: 20px;
-  max-height: 20px;
+#items li:hover {
+  background: #e4e4e4;
+  cursor: pointer;
+}
+
+#items .icon {
+  width: 20px;
+  height: 20px;
   margin-right: 5px;
+  background-size: 100% auto;
 }
 
 #autocomplete {
